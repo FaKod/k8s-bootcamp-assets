@@ -23,18 +23,21 @@
   }
 
   async function fetchDocument($form) {
+    const serializedFormData = serialize(new FormData($form))
     let options = {
       method: $form.method.toUpperCase()
     }
 
-    console.log(options.method)
     switch (options.method) {
       case 'POST': 
-        uri = $form.action || location.pathname
-        options.body = new FormData($form)
+        uri = $form.action || location.pathname,
+        Object.assign(options, {
+          body: serializedFormData,
+          headers: {'Content-Type' : 'application/x-www-form-urlencoded'}
+        })
         break;
       default:
-        uri = `${$form.action}?${serialize(new FormData($form))}`
+        uri = `${$form.action}?${serializedFormData}`
     }
 
     try {
