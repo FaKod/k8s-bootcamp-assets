@@ -1,37 +1,39 @@
-const parser = new DOMParser()
+const parser = new DOMParser();
 
 /*
 **  iq-embedded-link
 */
 
 class IqEmbeddedLink extends HTMLElement {
-  async fetchDocument (uri) {
+  async fetchDocument(uri) {
     let response = await fetch(uri, {
-      credentials: 'include'  
-    })
+      credentials: "include"
+    });
     if (response.ok) {
-      let htmlString = await response.text()
-      return parser.parseFromString(htmlString, 'text/html')
+      let htmlString = await response.text();
+      return parser.parseFromString(htmlString, "text/html");
     }
-    return null
+    return null;
   }
 
-  async connectedCallback () {
-    let $a = this.querySelector('a')
-    let selector = this.getAttribute('data-target')
-    let $remoteDocument = await this.fetchDocument($a.href)
+  async connectedCallback() {
+    let $a = this.querySelector("a");
+    let selector = this.getAttribute("data-target");
+    let $remoteDocument = await this.fetchDocument($a.href);
 
     if ($remoteDocument) {
-      let $target = $remoteDocument.querySelector(selector)
-      $a.setAttribute('hidden', '')
-      this.appendChild($target)
+      let $target = $remoteDocument.querySelector(selector);
+      if ($target) {
+        $a.setAttribute("hidden", "");
+        this.appendChild($target);
+      }
     } else {
-      $a.classList.add('link--unreachable')
+      $a.classList.add("link--unreachable");
     }
   }
 }
 
-window.customElements.define('iq-embedded-link', IqEmbeddedLink)
+window.customElements.define("iq-embedded-link", IqEmbeddedLink);
 
 /*
 **  iq-form
