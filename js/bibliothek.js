@@ -37,7 +37,7 @@ window.customElements.define('iq-embedded-link', IqEmbeddedLink)
 **  iq-form
 */
 
-export default class IqForm extends HTMLElement {
+class IqForm extends HTMLElement {
   getQueryString(formData) {
     return [...formData.entries()]
       .map(e => `${encodeURIComponent(e[0])}=${encodeURIComponent(e[1])}`)
