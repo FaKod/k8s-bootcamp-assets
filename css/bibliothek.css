@@ -6,3 +6,7 @@
 .o-box {
   padding: 2rem;
 }
+.badge {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
